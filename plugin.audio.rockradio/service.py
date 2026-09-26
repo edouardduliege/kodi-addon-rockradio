@@ -42,7 +42,7 @@ def update_linear_metadata(client, player, state):
         expected_stream = state.get("stream_url")
         if playing_file != expected_stream:
             xbmc.log(
-                "[plugin.audio.radiotunes] playing stream mismatch: "
+                "[plugin.audio.rockradio] playing stream mismatch: "
                 f"getPlayingFile={safe_url_for_log(playing_file)!r}, "
                 f"state_stream_url={safe_url_for_log(expected_stream)!r}",
                 xbmc.LOGDEBUG,
@@ -64,8 +64,8 @@ def update_linear_metadata(client, player, state):
         or current.get("title")
         or channel
     )
-    artist = current.get("display_artist") or "RadioTunes"
-    album = f"RadioTunes — {state.get('channel_name') or channel}"
+    artist = current.get("display_artist") or "RockRadio"
+    album = f"RockRadio — {state.get('channel_name') or channel}"
 
     # Work on Kodi's actual current ListItem. This gives artwork updates
     # the best chance of propagating not only to Estuary but also to
@@ -74,7 +74,7 @@ def update_linear_metadata(client, player, state):
         item = player.getPlayingItem()
     except Exception as exc:
         xbmc.log(
-            f"[plugin.audio.radiotunes] unable to get playing item: {exc!r}",
+            f"[plugin.audio.rockradio] unable to get playing item: {exc!r}",
             xbmc.LOGDEBUG,
         )
         item = xbmcgui.ListItem()
@@ -82,7 +82,7 @@ def update_linear_metadata(client, player, state):
             item.setPath(player.getPlayingFile())
         except Exception as path_exc:
             xbmc.log(
-                f"[plugin.audio.radiotunes] unable to set playing path: {path_exc!r}",
+                f"[plugin.audio.rockradio] unable to set playing path: {path_exc!r}",
                 xbmc.LOGDEBUG,
             )
 
@@ -118,7 +118,7 @@ def update_linear_metadata(client, player, state):
         expected_stream = state.get("stream_url")
         if playing_file != expected_stream:
             xbmc.log(
-                "[plugin.audio.radiotunes] playing stream mismatch before metadata update: "
+                "[plugin.audio.rockradio] playing stream mismatch before metadata update: "
                 f"getPlayingFile={safe_url_for_log(playing_file)!r}, "
                 f"state_stream_url={safe_url_for_log(expected_stream)!r}",
                 xbmc.LOGDEBUG,
@@ -143,7 +143,7 @@ def update_linear_metadata(client, player, state):
         return
 
     xbmc.log(
-        "[plugin.audio.radiotunes] Now Playing updated: "
+        "[plugin.audio.rockradio] Now Playing updated: "
         f"track_id={current.get('id')}, art={'yes' if thumb else 'no'}",
         xbmc.LOGDEBUG,
     )
@@ -174,14 +174,14 @@ def main():
                 playing_file = player.getPlayingFile()
             except Exception as exc:
                 xbmc.log(
-                    f"[plugin.audio.radiotunes] unable to read playing file: {exc!r}",
+                    f"[plugin.audio.rockradio] unable to read playing file: {exc!r}",
                     xbmc.LOGDEBUG,
                 )
                 continue
 
             if playing_file != expected_stream:
                 xbmc.log(
-                    "[plugin.audio.radiotunes] playing stream mismatch in service loop: "
+                    "[plugin.audio.rockradio] playing stream mismatch in service loop: "
                     f"getPlayingFile={safe_url_for_log(playing_file)!r}, "
                 f"state_stream_url={safe_url_for_log(expected_stream)!r}",
                     xbmc.LOGDEBUG,
@@ -195,12 +195,12 @@ def main():
 
         except AudioAddictError as exc:
             xbmc.log(
-                f"[plugin.audio.radiotunes] metadata service API error: {exc}",
+                f"[plugin.audio.rockradio] metadata service API error: {exc}",
                 xbmc.LOGDEBUG,
             )
         except Exception as exc:
             xbmc.log(
-                f"[plugin.audio.radiotunes] metadata service error: {exc!r}",
+                f"[plugin.audio.rockradio] metadata service error: {exc!r}",
                 xbmc.LOGDEBUG,
             )
 

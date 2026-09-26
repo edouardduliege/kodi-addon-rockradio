@@ -14,7 +14,7 @@ import xbmc
 import xbmcaddon
 import xbmcvfs
 
-ADDON_ID = "plugin.audio.radiotunes"
+ADDON_ID = "plugin.audio.rockradio"
 
 
 def _state_path():
@@ -64,7 +64,7 @@ def load_state():
             return data if isinstance(data, dict) else {}
     except Exception as exc:
         xbmc.log(
-            f"[plugin.audio.radiotunes] unable to read playback state: {exc!r}",
+            f"[plugin.audio.rockradio] unable to read playback state: {exc!r}",
             xbmc.LOGWARNING,
         )
     return {}
@@ -82,7 +82,7 @@ def save_state(data):
 
     except Exception as exc:
         xbmc.log(
-            f"[plugin.audio.radiotunes] unable to save playback state: {exc!r}",
+            f"[plugin.audio.rockradio] unable to save playback state: {exc!r}",
             xbmc.LOGWARNING,
         )
 
@@ -96,7 +96,7 @@ def clear_state():
                 path.unlink()
     except Exception as exc:
         xbmc.log(
-            f"[plugin.audio.radiotunes] unable to clear playback state: {exc!r}",
+            f"[plugin.audio.rockradio] unable to clear playback state: {exc!r}",
             xbmc.LOGWARNING,
         )
 
@@ -130,7 +130,7 @@ def update_state_if_current(stream_url, channel_key, updates):
 
     except Exception as exc:
         xbmc.log(
-            f"[plugin.audio.radiotunes] unable to update playback state: {exc!r}",
+            f"[plugin.audio.rockradio] unable to update playback state: {exc!r}",
             xbmc.LOGWARNING,
         )
         return False
@@ -158,7 +158,7 @@ def _write_state_atomic(path, data):
             os.chmod(path, 0o600)
         except Exception as exc:
             xbmc.log(
-                "[plugin.audio.radiotunes] unable to restrict playback state "
+                "[plugin.audio.rockradio] unable to restrict playback state "
                 f"permissions: {exc!r}",
                 xbmc.LOGWARNING,
             )

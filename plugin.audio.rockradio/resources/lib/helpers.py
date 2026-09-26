@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Kodi ListItem/artwork helpers for RadioTunes channels and Now Playing."""
+"""Kodi ListItem/artwork helpers for RockRadio channels and Now Playing."""
 from __future__ import annotations
 
 import xbmcgui
@@ -53,13 +53,13 @@ def music_listitem(
     channel_art="",
     channel_fanart="",
 ):
-    """Build the initial Kodi ListItem for a linear RadioTunes stream."""
+    """Build the initial Kodi ListItem for a linear RockRadio stream."""
     item = xbmcgui.ListItem(path=stream_url)
 
     tag = item.getMusicInfoTag()
     tag.setTitle(str(channel_name))
-    tag.setArtist("RadioTunes")
-    tag.setAlbum(f"RadioTunes — {channel_name}")
+    tag.setArtist("RockRadio")
+    tag.setAlbum(f"RockRadio — {channel_name}")
 
     art = {}
     if channel_art:

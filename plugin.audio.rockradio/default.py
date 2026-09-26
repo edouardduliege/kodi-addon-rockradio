@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Kodi directory/plugin entry point for the RadioTunes add-on."""
+"""Kodi directory/plugin entry point for the RockRadio add-on."""
 from __future__ import annotations
 
 import sys
@@ -14,7 +14,7 @@ from resources.lib.client import AudioAddictClient, AudioAddictError
 from resources.lib.helpers import channel_images, image_url, music_listitem
 from resources.lib.state import save_state
 
-ADDON_ID = "plugin.audio.radiotunes"
+ADDON_ID = "plugin.audio.rockradio"
 ADDON = xbmcaddon.Addon(ADDON_ID)
 HANDLE = int(sys.argv[1])
 BASE_URL = sys.argv[0]
@@ -26,7 +26,7 @@ def t(string_id):
 
 
 def log(msg, level=xbmc.LOGINFO):
-    xbmc.log(f"[plugin.audio.radiotunes] {msg}", level)
+    xbmc.log(f"[plugin.audio.rockradio] {msg}", level)
 
 
 def url_for(action, **kwargs):
@@ -72,11 +72,11 @@ def add_channel(channel, favorite_ids=None):
 
     tag = li.getMusicInfoTag()
     tag.setTitle(name)
-    tag.setArtist("RadioTunes")
+    tag.setArtist("RockRadio")
     li.setProperty("IsPlayable", "true")
 
-    if cid is not None and favorite_ids is not None:
-        isfav = str(cid) in favorite_ids
+    if cid and favorite_ids is not None:
+        isfav = cid in favorite_ids
         favlabel = t(32042) if isfav else t(32041)
         favaction = "favorite_remove" if isfav else "favorite_add"
         li.addContextMenuItems([
@@ -187,7 +187,7 @@ def list_style(client, filter_id):
 def list_favorites(client):
     channels = client.favorite_channels()
     favs = {
-        c.get("id")
+        str(c.get("id"))
         for c in channels
         if c.get("id") is not None
     }
@@ -217,7 +217,7 @@ def change_favorite(client, channel_id, add):
         msg = t(32045)
 
     xbmcgui.Dialog().notification(
-        "RadioTunes",
+        "RockRadio",
         msg,
         xbmcgui.NOTIFICATION_INFO,
         1600,
@@ -288,7 +288,7 @@ def run():
         if action == "root":
             if not client.has_credentials():
                 xbmcgui.Dialog().ok(
-                    "RadioTunes",
+                    "RockRadio",
                     t(32030),
                 )
                 ADDON.openSettings()
@@ -329,7 +329,7 @@ def run():
 
     except AudioAddictError as exc:
         log(str(exc), xbmc.LOGERROR)
-        xbmcgui.Dialog().ok("RadioTunes", str(exc))
+        xbmcgui.Dialog().ok("RockRadio", str(exc))
         try:
             xbmcplugin.endOfDirectory(
                 HANDLE, succeeded=False, cacheToDisc=False
@@ -339,7 +339,7 @@ def run():
 
     except Exception as exc:
         log(f"Unhandled error: {exc!r}", xbmc.LOGERROR)
-        xbmcgui.Dialog().ok("RadioTunes", t(32031))
+        xbmcgui.Dialog().ok("RockRadio", t(32031))
         try:
             xbmcplugin.endOfDirectory(
                 HANDLE, succeeded=False, cacheToDisc=False

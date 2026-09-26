@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""AudioAddict/RadioTunes API client used by the Kodi add-on.
+"""AudioAddict/RockRadio API client used by the Kodi add-on.
 
 The V1 client deliberately exposes only the functionality required by the
 linear radio experience: authentication, channel discovery, favourites,
@@ -22,7 +22,7 @@ import xbmcaddon
 import xbmcvfs
 import hashlib
 
-ADDON_ID = "plugin.audio.radiotunes"
+ADDON_ID = "plugin.audio.rockradio"
 
 
 class AudioAddictError(RuntimeError):
@@ -30,11 +30,11 @@ class AudioAddictError(RuntimeError):
 
 
 class AudioAddictClient:
-    """Small synchronous client for the AudioAddict API used by RadioTunes."""
+    """Small synchronous client for the AudioAddict API used by RockRadio."""
 
     API = "https://api.audioaddict.com/v1"
-    NETWORK = "radiotunes"
-    DOMAIN = "radiotunes.com"
+    NETWORK = "rockradio"
+    DOMAIN = "rockradio.com"
 
     # Credentials used by AudioAddict's own public-facing stream clients.
     # This is not the user's account credential.
@@ -56,7 +56,7 @@ class AudioAddictClient:
         self.http = requests.Session()
         version = self.addon.getAddonInfo("version")
         self.http.headers.update({
-            "User-Agent": f"Kodi RadioTunes/{version}",
+            "User-Agent": f"Kodi RockRadio/{version}",
             "Accept": "application/json, */*",
         })
         self._session = self._load_session()
@@ -67,7 +67,7 @@ class AudioAddictClient:
 
     @staticmethod
     def _log(message, level=xbmc.LOGDEBUG):
-        xbmc.log(f"[plugin.audio.radiotunes] {message}", level)
+        xbmc.log(f"[plugin.audio.rockradio] {message}", level)
 
 
     @staticmethod
@@ -256,6 +256,7 @@ class AudioAddictClient:
                 url,
                 headers=headers,
                 timeout=timeout,
+                allow_redirects=False,
             )
         except requests.RequestException:
             raise AudioAddictError(self._t(32107))
@@ -269,6 +270,7 @@ class AudioAddictClient:
                     url,
                     headers=headers,
                     timeout=timeout,
+                    allow_redirects=False,
                 )
             except requests.RequestException:
                 raise AudioAddictError(self._t(32107))
@@ -296,6 +298,7 @@ class AudioAddictClient:
                 headers=headers,
                 json=payload,
                 timeout=20,
+                allow_redirects=False,
             )
         except requests.RequestException:
             raise AudioAddictError(self._t(32107))
@@ -311,6 +314,7 @@ class AudioAddictClient:
                     headers=headers,
                     json=payload,
                     timeout=20,
+                    allow_redirects=False,
                 )
             except requests.RequestException:
                 raise AudioAddictError(self._t(32107))
@@ -329,11 +333,11 @@ class AudioAddictClient:
             return None
 
     def channel_filters(self):
-        """Return AudioAddict's current RadioTunes navigation filters/channels."""
+        """Return AudioAddict's current RockRadio navigation filters/channels."""
         return self._get("/channel_filters")
 
     def favorite_channel_ids(self):
-        """Return the current user's favourite RadioTunes channel IDs."""
+        """Return the current user's favourite RockRadio channel IDs."""
         session = self._ensure_session()
         favourites = self._get(
             f"/members/{session['user_id']}/favorites/channels"
@@ -388,7 +392,7 @@ class AudioAddictClient:
         )
 
     def current_track(self, channel_key, known_track_id=None):
-        """Return Now Playing metadata for one linear RadioTunes channel.
+        """Return Now Playing metadata for one linear RockRadio channel.
 
         The lightweight `/currently_playing` response is always sufficient to
         detect a track change.  Rich `/tracks/{id}` metadata is fetched only
