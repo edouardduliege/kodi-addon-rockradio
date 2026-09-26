@@ -1,4 +1,4 @@
-# RockRadio for Kodi — v0.9.0
+# RockRadio for Kodi — v1.0.0
 
 Unofficial community RockRadio / AudioAddict music add-on for Kodi.
 
@@ -87,7 +87,7 @@ candidate directly. Stream URLs written to debug logs are redacted.
 - Maintainer: Édouard Duliège
 - Source: https://github.com/edouardduliege/kodi-addon-rockradio
 - License: GPL-3.0-or-later
-- Current state: v0.9.0 local test build
+- Kodi Omega compatibility validated with `kodi-addon-checker`
 
 This is an unofficial community add-on. It is not affiliated with, endorsed by,
 or supported by RockRadio or AudioAddict.
@@ -99,6 +99,10 @@ The add-on relies on AudioAddict endpoints that are not supported as a public
 API and may therefore change without notice.
 
 ## Changelog
+
+### 1.0.0
+
+Initial public release.
 
 ### 0.9.0
 
