@@ -1,4 +1,4 @@
-# RockRadio for Kodi — v1.0.0
+# RockRadio for Kodi — v1.0.2
 
 Unofficial community RockRadio / AudioAddict music add-on for Kodi.
 
@@ -41,7 +41,8 @@ is opened; the add-on does not maintain a local channel catalogue cache.
 : Image URL normalisation and Kodi `ListItem` helpers.
 
 `resources/lib/state.py`
-: Small state file stored only inside this add-on's Kodi profile directory.
+: Atomic playback-state storage inside the add-on profile, with portable Windows/Unix
+  file locks.
 
 ## Authentication and session handling
 
@@ -73,6 +74,15 @@ Explicit HTTP rejection is treated as a negative result, while connection
 errors and timeouts are treated as inconclusive so Kodi can still attempt the
 candidate directly. Stream URLs written to debug logs are redacted.
 
+## Reliability and security in 1.0.2
+
+- Portable cross-process playback-state locking on Windows and Unix-like systems.
+- Playback instance identifiers protect against stale track metadata from earlier playbacks.
+- Authentication requests do not automatically follow redirects that could disclose credentials.
+- Playlist and stream destinations receive additional URL validation.
+- Transient track detail failures are retried with controlled timing.
+- Favourite channel identifiers are normalized consistently.
+
 ## V2 candidates
 
 - per-track progress using a track-by-track playback engine
@@ -87,7 +97,7 @@ candidate directly. Stream URLs written to debug logs are redacted.
 - Maintainer: Édouard Duliège
 - Source: https://github.com/edouardduliege/kodi-addon-rockradio
 - License: GPL-3.0-or-later
-- Kodi Omega compatibility validated with `kodi-addon-checker`
+- Target: Kodi Omega (`kodi-addon-checker` validation required before submission)
 
 This is an unofficial community add-on. It is not affiliated with, endorsed by,
 or supported by RockRadio or AudioAddict.
@@ -100,13 +110,18 @@ API and may therefore change without notice.
 
 ## Changelog
 
+### 1.0.2
+
+Maintenance release harmonizing the AudioAddict add-on family.
+
+- Portable Windows/Unix state locking and atomic updates.
+- Hardened authenticated requests and playlist URL handling.
+- Improved playback-state isolation and metadata retry behaviour.
+- Normalized favorite IDs and improved diagnostics.
+
 ### 1.0.0
 
 Initial public release.
-
-### 0.9.0
-
-Initial local test build.
 
 - Linear RockRadio playback through Kodi's native player
 - AudioAddict account authentication with cached session reuse
@@ -123,3 +138,7 @@ Initial local test build.
 - redacted stream URLs in debug logs
 - reduced unnecessary Now Playing API calls
 - original community artwork clearly distinguishing the add-on from an official release
+
+### 0.9.0
+
+Initial local test build.
